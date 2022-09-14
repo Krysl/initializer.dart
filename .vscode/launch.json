@@ -1,0 +1,32 @@
+{
+  // 使用 IntelliSense 了解相关属性。 
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "initializer | build_runner debug",
+      "type": "dart",
+      "request": "launch",
+      "program": ".dart_tool/build/entrypoint/build.dart",
+      "args": [
+        "watch",
+        "--delete-conflicting-outputs",
+      ],
+      "cwd": "${workspaceFolder}\\initializer",
+      "preLaunchTask": "initializer | generate-build-script"
+    },
+    {
+      "name": "example | build_runner debug",
+      "type": "dart",
+      "request": "launch",
+      "program": ".dart_tool/build/entrypoint/build.dart",
+      "args": [
+        "watch",
+        "--delete-conflicting-outputs",
+      ],
+      "cwd": "${workspaceFolder}\\example",
+      "preLaunchTask": "example | generate-build-script"
+    },
+  ]
+}
