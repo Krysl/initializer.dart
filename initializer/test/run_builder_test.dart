@@ -22,14 +22,23 @@ bool initSync() => true;
     };
     final writer = InMemoryAssetWriter();
     final outputs = <String, Object>{
-      'a|lib/initializer.dart': '''
-initializer() {
+      'a|lib/test.init.dart': '''
+import 'a.dart' show initSync;
+
+void defaultInitializer() {
   initSync();
-}''',
+}
+void initializer({
+  bool enabledefault = true,
+}) {
+  if(enabledefault) defaultInitializer();
+}
+''',
     };
 
     await testBuilder(
       AggregateBuilder(
+        outputPath: 'lib/test.init.dart',
         generators: [InitializerGenerator()],
       ),
       assets,

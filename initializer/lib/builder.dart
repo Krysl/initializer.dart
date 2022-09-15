@@ -18,7 +18,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'src/aggregate_builder.dart';
 import 'src/initializer_generator.dart';
-// import 'src/part_builder.dart';
 import 'src/settings.dart';
 
 /// Supports `package:build_runner` creation and configuration of

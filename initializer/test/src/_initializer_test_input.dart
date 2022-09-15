@@ -1,12 +1,13 @@
 import 'package:initializer_annotation/initializer_annotation.dart';
 import 'package:source_gen_test/annotations.dart';
 
-@ShouldThrow('`@Initializer` can only be used on top-level variable.')
+@ShouldThrow(
+    '`@Initializer` can only be used on [top-level variable, function without required args].')
 @Initializer() // ignore: invalid_annotation_target
 enum UnsupportedEnum { not, valid }
 
 @ShouldGenerate('''
-initializer() {
+void defaultInitializer() {
   init;
 }
 ''')
@@ -16,7 +17,7 @@ final bool init = initSync();
 bool inited = false;
 
 @ShouldGenerate('''
-initializer() {
+void defaultInitializer() {
   initSync();
 }
 ''')

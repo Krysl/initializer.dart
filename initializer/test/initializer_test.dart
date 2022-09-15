@@ -1,4 +1,5 @@
 import 'package:initializer/initializer.dart';
+import 'package:initializer/src/test_annotated_classes.dart';
 import 'package:path/path.dart' as p;
 import 'package:source_gen_test/source_gen_test.dart';
 
@@ -8,7 +9,7 @@ void main() async {
     p.join('test', 'src'),
     '_initializer_test_input.dart',
   );
-  testAnnotatedElements(
+  testAggregateAnnotatedElements(
     initializerTestReader,
     InitializerGenerator(),
     expectedAnnotatedTests: _expectedAnnotatedTests,

@@ -7,12 +7,12 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:async/async.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
 import 'aggregate_generator.dart';
 import 'aggregate_results.dart';
+import 'output_helpers.dart';
 
 abstract class AggregateGeneratorForAnnotation<T, R extends AggregateResults>
     extends AggregateGenerator<R> {
@@ -31,11 +31,11 @@ abstract class AggregateGeneratorForAnnotation<T, R extends AggregateResults>
         annotatedElement.annotation,
         buildStep,
       );
-      await for (final value in normalizeGeneratorOutput(generatedValue)) {
+      await for (final value in normalizeGeneratorOutput<R>(generatedValue)) {
         if (values.containsKey(value.key)) {
           values[value.key]!.merge(value.value);
         } else {
-          values.addEntries([value]);
+          values[value.key] = value.value;
         }
       }
     }
@@ -48,37 +48,4 @@ abstract class AggregateGeneratorForAnnotation<T, R extends AggregateResults>
     ConstantReader annotation,
     BuildStep buildStep,
   );
-
-  /// Converts [Future], [Iterable], and [Stream] implementations
-  /// containing [MapEntry<String, R>] to a single [Stream] while ensuring all thrown
-  /// exceptions are forwarded through the return value.
-  Stream<MapEntry<String, R>> normalizeGeneratorOutput(Object? value) {
-    if (value == null) {
-      return const Stream.empty();
-    } else if (value is Future) {
-      return StreamCompleter.fromFuture(value.then(normalizeGeneratorOutput));
-    } else if (value is MapEntry<String, R>) {
-      value = [value];
-    }
-
-    if (value is Iterable) {
-      value = Stream.fromIterable(value);
-    }
-
-    if (value is Stream) {
-      return value.where((e) => e != null).map((e) {
-        if (e is MapEntry<String, R>) {
-          return e;
-        }
-
-        throw argError(e as Object);
-      });
-    }
-    throw argError(value);
-  }
-
-  ArgumentError argError(Object value) => ArgumentError(
-        'Must be a MapEntry<String, $R> or be an Iterable/Stream containing MapEntry<String, $R> values. '
-        'Found `${Error.safeToString(value)}` (${value.runtimeType}).',
-      );
 }

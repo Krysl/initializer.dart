@@ -1,7 +1,4 @@
 // ignore_for_file: implementation_imports, unnecessary_import
-
-import 'dart:io';
-
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/src/dart/element/element.dart';
 import 'package:build/build.dart';
@@ -84,7 +81,6 @@ class InitializerGenerator extends AggregateGeneratorForAnnotation<Initializer,
   ) {
     final group = annotation.read('group');
     final groupString = group.isNull ? 'default' : group.stringValue;
-    final current = Directory.current;
     final result = InitializerAggregateResults(
       groupName: groupString,
       path: element.source!.fullName,
