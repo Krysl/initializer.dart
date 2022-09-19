@@ -8,10 +8,12 @@ part 'initializer.g.dart';
   fieldRename: FieldRename.snake,
 )
 class Initializer {
+  final bool debug;
   final String? group;
   final String? outputPath;
 
   const Initializer({
+    this.debug = false,
     this.group,
     this.outputPath,
   });

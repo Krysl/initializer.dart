@@ -11,7 +11,7 @@ dependencies:
   build: ^2.3.0
   build_config: ^1.1.0
   glob: ^2.1.0
-  initializer_annotation: ^0.0.1
+  initializer_annotation: ^1.0.0
   json_annotation: ^4.6.0
   meta: ^1.8.0
   path: ^1.8.2

@@ -11,9 +11,11 @@ class Settings {
 }
 
 class ClassConfig {
+  final bool debug;
   final String group;
   final String outputPath;
   const ClassConfig({
+    required this.debug,
     required this.group,
     required this.outputPath,
   });
@@ -21,12 +23,14 @@ class ClassConfig {
   factory ClassConfig.fromInitializer(Initializer config) =>
       // #CHANGE WHEN UPDATING json_annotation
       ClassConfig(
+        debug: config.debug,
         group: config.group ?? defaults.group,
         outputPath: config.outputPath ?? defaults.outputPath,
       );
   static const defaults = ClassConfig(
+    debug: false,
     group: 'default',
-    outputPath: 'lib/src/init.initializer.dart',
+    outputPath: 'lib/src/init.init.dart',
   );
 
   Initializer toInitializer() => Initializer(group: group);

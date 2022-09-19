@@ -13,6 +13,8 @@ import 'settings.dart';
 class InitializerAggregateResults extends AggregateResults {
   final List<TopLevelVariableElementImpl> _topLevelVariable = [];
   final List<FunctionElementImpl> _initFunction = [];
+  final List<FieldElementImpl> _initField = [];
+  final List<MethodElementImpl> _initMethod = [];
 
   final String groupName;
   @override
@@ -36,6 +38,18 @@ class InitializerAggregateResults extends AggregateResults {
         strbuf.writeln('  ${fn.identifier}();');
       }
     }
+    if (_initField.isNotEmpty) {
+      for (final f in _initField) {
+        final klass = f.enclosingElement3 as ClassElementImpl;
+        strbuf.writeln('  ${klass.identifier}.${f.identifier};');
+      }
+    }
+    if (_initMethod.isNotEmpty) {
+      for (final m in _initMethod) {
+        final klass = m.enclosingElement3 as ClassElementImpl;
+        strbuf.writeln('  ${klass.identifier}.${m.identifier}();');
+      }
+    }
     strbuf.write('}');
     return strbuf.toString();
   }
@@ -55,6 +69,18 @@ class InitializerAggregateResults extends AggregateResults {
   void addFunction(FunctionElementImpl e) {
     _initFunction.add(e);
     addSourceMap(e.source.uri, e.identifier);
+  }
+
+  void addField(FieldElementImpl e) {
+    _initField.add(e);
+    final klass = e.enclosingElement3 as ClassElementImpl;
+    addSourceMap(e.librarySource.uri, klass.identifier);
+  }
+
+  void addMethod(MethodElementImpl e) {
+    _initMethod.add(e);
+    final klass = e.enclosingElement3 as ClassElementImpl;
+    addSourceMap(e.librarySource.uri, klass.identifier);
   }
 }
 
@@ -89,10 +115,41 @@ class InitializerGenerator extends AggregateGeneratorForAnnotation<Initializer,
       result.addTopLevelVariable(element);
     } else if (element is FunctionElementImpl) {
       result.addFunction(element);
+    } else if (element is ClassElementImpl) {
+      final klass = element;
+      final annotatedFields =
+          klass.fields.where((element) => typeChecker.hasAnnotationOf(element));
+      for (final field in annotatedFields) {
+        if (field is FieldElementImpl) {
+          if (field.isStatic) {
+            result.addField(field);
+          } else {
+            throw InvalidGenerationSourceError(
+              '`@Initializer` can only be used on STATIC field.',
+              element: element,
+            );
+          }
+        }
+      }
+      final annotatedMethods = klass.methods
+          .where((element) => typeChecker.hasAnnotationOf(element));
+      for (final method in annotatedMethods) {
+        if (method is MethodElementImpl) {
+          if (method.isStatic) {
+            result.addMethod(method);
+          } else {
+            throw InvalidGenerationSourceError(
+              '`@Initializer` can only be used on STATIC method.',
+              element: element,
+            );
+          }
+        }
+      }
     } else {
       const supported = [
         'top-level variable',
-        'function without required args'
+        'function without required args',
+        'static member of class'
       ];
       throw InvalidGenerationSourceError(
         '`@Initializer` can only be used on $supported.',

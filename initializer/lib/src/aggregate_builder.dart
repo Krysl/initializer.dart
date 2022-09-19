@@ -12,10 +12,15 @@ class AggregateBuilder implements Builder {
   List<AggregateGenerator> generators;
   String outputPath;
 
+  final bool _debug;
+  void debug(Object? message, [Object? error, StackTrace? stackTrace]) =>
+      _debug ? log.info(message, error, stackTrace) : null;
+
   AggregateBuilder({
     required this.outputPath,
     required this.generators,
-  }) {
+    bool debug = false,
+  }) : _debug = debug {
     if (!outputPath.endsWith('.init.dart')) {
       throw ArgumentError(
           'outputPath should endswith ".init.dart", but you set it to $outputPath');
@@ -36,27 +41,31 @@ class AggregateBuilder implements Builder {
   FutureOr<void> build(BuildStep buildStep) async {
     final inputId = buildStep.inputId;
     final rootUri = inputId.uri;
-    log.info(
+
+    debug(
         '====== AggregateBuilder build() for $rootUri ${inputId.path} ======');
     final group = AggregateResultsGroup(
       rootPackage: inputId.package,
       outputPath: outputPath,
     );
     await for (final input in buildStep.findAssets(_allFilesInLib)) {
-      final uri = rootUri.resolveUri(input.uri);
-      log.info(
-          '====== AggregateBuilder build for $input ${input.path} $uri ${buildStep.allowedOutputs} ======');
+      try {
+        final library = await buildStep.resolver.libraryFor(input);
+        final libraryReader = LibraryReader(library);
+        if (generators.isNotEmpty) {
+          final uri = rootUri.resolveUri(input.uri);
+          debug(
+              '====== AggregateBuilder build for $input ${input.path} $uri ${buildStep.allowedOutputs} ======');
+        }
 
-      final library = await buildStep.resolver.libraryFor(input);
-      final libraryReader = LibraryReader(library);
-
-      for (final generator in generators) {
-        final result = await generator.generate(
-          libraryReader,
-          buildStep,
-        );
-        group.addAll(result);
-      }
+        for (final generator in generators) {
+          final result = await generator.generate(
+            libraryReader,
+            buildStep,
+          );
+          group.addAll(result);
+        }
+      } on NonLibraryAssetException catch (_) {}
     }
 
     final output = _allFileOutput(buildStep);

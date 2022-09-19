@@ -20,4 +20,5 @@ const _expectedAnnotatedTests = <String>{
   'UnsupportedEnum',
   'init',
   'initSync',
+  'InitClass'
 };
