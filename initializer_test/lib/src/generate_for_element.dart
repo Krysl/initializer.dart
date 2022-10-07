@@ -6,13 +6,12 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart' as dart_style;
+import 'package:initializer/src/aggregate_generator_for_annotation.dart';
+import 'package:initializer/src/aggregate_results.dart';
+import 'package:initializer/src/output_helpers.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:source_gen_test/src/init_library_reader.dart'
     show testPackageName;
-
-import 'aggregate_generator_for_annotation.dart';
-import 'aggregate_results.dart';
-import 'output_helpers.dart';
 
 final _formatter = dart_style.DartFormatter();
 

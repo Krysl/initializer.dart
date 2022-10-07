@@ -21,7 +21,7 @@ class ClassConfig {
   });
 
   factory ClassConfig.fromInitializer(Initializer config) =>
-      // #CHANGE WHEN UPDATING json_annotation
+      // #CHANGE WHEN UPDATING initializer_annotation
       ClassConfig(
         debug: config.debug,
         group: config.group ?? defaults.group,

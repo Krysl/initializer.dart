@@ -1,19 +1,18 @@
 import 'package:initializer_annotation/initializer_annotation.dart';
 
 @Initializer()
-final result = calculate();
+final initVar = init();
 
-@Initializer()
-int calculate() {
-  return 6 * 7;
-}
+late final bool _inited;
+bool get inited => _inited;
+
+@Initializer(group: 'group1')
+bool init() => _inited = true;
 
 @Initializer(group: 'group2')
-int calculate2() {
-  return 6 * 7;
-}
+bool init2() => _inited = true;
 
-@Initializer()
+@Initializer(group: 'group1')
 class InitA {
   @Initializer()
   static final initVar = init();
