@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      initializer:
+        enabled: true
+        options:
+          output_path: lib/init.init.dart

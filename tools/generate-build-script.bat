@@ -1,0 +1,1 @@
+dart run build_runner generate-build-script

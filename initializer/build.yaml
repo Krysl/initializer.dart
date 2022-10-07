@@ -1,0 +1,9 @@
+# Read about `build.yaml` at https://pub.dev/packages/build_config
+
+builders:
+  initializer:
+    import: "package:initializer/builder.dart"
+    builder_factories: ["initializer"]
+    build_extensions: { "lib/$lib$": [".init.dart"] }
+    auto_apply: dependents
+    build_to: source
