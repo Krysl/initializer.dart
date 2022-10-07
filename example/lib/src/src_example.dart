@@ -8,7 +8,7 @@ int srcCalculate() {
   return 6 * 7;
 }
 
-@Initializer()
+@Initializer(group: 'group2')
 int srcCalculate2() {
   return 6 * 7;
 }

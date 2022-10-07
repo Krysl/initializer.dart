@@ -8,7 +8,20 @@ int calculate() {
   return 6 * 7;
 }
 
-@Initializer()
+@Initializer(group: 'group2')
 int calculate2() {
   return 6 * 7;
+}
+
+@Initializer()
+class InitA {
+  @Initializer()
+  static final initVar = init();
+
+  static late final int _init;
+  @Initializer()
+  static int init() {
+    _init = 1;
+    return _init;
+  }
 }
