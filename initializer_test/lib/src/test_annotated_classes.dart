@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:initializer/src/aggregate_generator_for_annotation.dart';
+import 'package:initializer/src/aggregate_results.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:source_gen_test/src/annotations.dart';
@@ -11,8 +13,6 @@ import 'package:source_gen_test/src/expectation_element.dart';
 import 'package:source_gen_test/src/matchers.dart';
 import 'package:test/test.dart';
 
-import 'aggregate_generator_for_annotation.dart';
-import 'aggregate_results.dart';
 import 'generate_for_element.dart';
 
 const _defaultConfigurationName = 'default';

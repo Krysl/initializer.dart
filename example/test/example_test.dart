@@ -1,8 +1,13 @@
 import 'package:example/example.dart';
+import 'package:example/init.init.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('calculate', () {
-    expect(calculate(), 42);
+  setUpAll(() => initializer(
+        enablegroup1: false,
+        enablegroup2: false,
+      ));
+  test('inited', () {
+    expect(inited, true);
   });
 }

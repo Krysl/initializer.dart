@@ -1,5 +1,5 @@
 dependency_overrides:
+  initializer:
+    path: ../initializer
   initializer_annotation:
     path: ../initializer_annotation
-  initializer_test:
-    path: ../initializer_test
