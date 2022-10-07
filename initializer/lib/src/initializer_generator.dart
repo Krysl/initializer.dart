@@ -58,6 +58,8 @@ class InitializerAggregateResults extends AggregateResults {
   void merge(InitializerAggregateResults other) {
     _topLevelVariable.addAll(other._topLevelVariable);
     _initFunction.addAll(other._initFunction);
+    _initField.addAll(other._initField);
+    _initMethod.addAll(other._initMethod);
     super.merge(other);
   }
 

@@ -40,10 +40,6 @@ class AggregateBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     final inputId = buildStep.inputId;
-    final rootUri = inputId.uri;
-
-    debug(
-        '====== AggregateBuilder build() for $rootUri ${inputId.path} ======');
     final group = AggregateResultsGroup(
       rootPackage: inputId.package,
       outputPath: outputPath,
@@ -52,18 +48,19 @@ class AggregateBuilder implements Builder {
       try {
         final library = await buildStep.resolver.libraryFor(input);
         final libraryReader = LibraryReader(library);
-        if (generators.isNotEmpty) {
-          final uri = rootUri.resolveUri(input.uri);
-          debug(
-              '====== AggregateBuilder build for $input ${input.path} $uri ${buildStep.allowedOutputs} ======');
-        }
 
+        var hasGenerated = false;
         for (final generator in generators) {
           final result = await generator.generate(
             libraryReader,
             buildStep,
           );
+          if (result != null && result.isNotEmpty) hasGenerated = true;
           group.addAll(result);
+        }
+        if (hasGenerated) {
+          debug(
+              '====== AggregateBuilder build for $input ${input.path} ======');
         }
       } on NonLibraryAssetException catch (_) {}
     }
