@@ -1,6 +1,6 @@
 name: initializer
 description: Automatically generate code for aggregate initialization code by annotating Dart variable/function/field/method.
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/Krysl/initializer.dart
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   async: ^2.9.0
   build: ^2.3.0
   glob: ^2.1.0
-  initializer_annotation: ^0.1.0
+  initializer_annotation: ^0.2.0
   json_annotation: ^4.7.0
   meta: ^1.8.0
   path: ^1.8.2

@@ -35,10 +35,12 @@ class AggregateResultsGroup {
   final Map<String, AggregateResults> _groups;
   final String rootPackage;
   final String outputPath;
+  final Set<String>? order;
   AggregateResultsGroup({
     Map<String, AggregateResults>? groups,
     required this.rootPackage,
     required this.outputPath,
+    required this.order,
   }) : _groups = groups ?? <String, AggregateResults>{};
 
   void addGroup(String group, AggregateResults result) {
@@ -119,6 +121,19 @@ class AggregateResultsGroup {
     }
     if (groupNames.isNotEmpty) strbuf.write('}');
     strbuf.writeln(') {');
+    if (order != null && order!.isNotEmpty) {
+      final groupNameOrder = order!.toList();
+      groupNames.sort(
+        (a, b) {
+          const intMax = 0x7fffffffffffffff;
+          var aIndex = groupNameOrder.indexOf(a);
+          if (aIndex < 0) aIndex = intMax;
+          var bIndex = groupNameOrder.indexOf(b);
+          if (bIndex < 0) bIndex = intMax;
+          return aIndex.compareTo(bIndex);
+        },
+      );
+    }
     for (final groupName in groupNames) {
       strbuf.writeln('  if(enable$groupName) ${groupName}Initializer();');
     }

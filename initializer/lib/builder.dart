@@ -31,6 +31,7 @@ Builder initializer(BuilderOptions options) {
     // return partBuilder(config: config);
     return AggregateBuilder(
       outputPath: settings.config.outputPath,
+      order: settings.config.order,
       debug: settings.config.debug,
       generators: [
         InitializerGenerator.fromSettings(settings),

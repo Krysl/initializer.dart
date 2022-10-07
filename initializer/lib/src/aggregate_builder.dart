@@ -11,6 +11,7 @@ import 'aggregate_results.dart';
 class AggregateBuilder implements Builder {
   List<AggregateGenerator> generators;
   String outputPath;
+  final Set<String>? order;
 
   final bool _debug;
   void debug(Object? message, [Object? error, StackTrace? stackTrace]) =>
@@ -18,6 +19,7 @@ class AggregateBuilder implements Builder {
 
   AggregateBuilder({
     required this.outputPath,
+    required this.order,
     required this.generators,
     bool debug = false,
   }) : _debug = debug {
@@ -43,6 +45,7 @@ class AggregateBuilder implements Builder {
     final group = AggregateResultsGroup(
       rootPackage: inputId.package,
       outputPath: outputPath,
+      order: order,
     );
     await for (final input in buildStep.findAssets(_allFilesInLib)) {
       try {

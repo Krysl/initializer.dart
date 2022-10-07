@@ -11,11 +11,13 @@ class Initializer {
   final bool debug;
   final String? group;
   final String? outputPath;
+  final Set<String>? order;
 
   const Initializer({
     this.debug = false,
     this.group,
     this.outputPath,
+    this.order,
   });
 
   factory Initializer.fromJson(Map<String, dynamic> json) =>

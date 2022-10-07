@@ -14,10 +14,12 @@ class ClassConfig {
   final bool debug;
   final String group;
   final String outputPath;
+  final Set<String> order;
   const ClassConfig({
     required this.debug,
     required this.group,
     required this.outputPath,
+    required this.order,
   });
 
   factory ClassConfig.fromInitializer(Initializer config) =>
@@ -26,11 +28,13 @@ class ClassConfig {
         debug: config.debug,
         group: config.group ?? defaults.group,
         outputPath: config.outputPath ?? defaults.outputPath,
+        order: config.order ?? defaults.order,
       );
   static const defaults = ClassConfig(
     debug: false,
     group: 'default',
     outputPath: 'lib/src/init.init.dart',
+    order: <String>{},
   );
 
   Initializer toInitializer() => Initializer(group: group);

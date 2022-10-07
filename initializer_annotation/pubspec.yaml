@@ -1,6 +1,6 @@
 name: initializer_annotation
 description: Classes and helper functions that support initialization code generation via the `initializer` package.
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/Krysl/initializer.dart
 
 environment:
@@ -10,5 +10,6 @@ dependencies:
   json_annotation: ^4.6.0
 
 dev_dependencies:
+  build_runner: ^2.2.1
   flutter_lints: ^2.0.1
   json_serializable: ^6.3.1

@@ -5,12 +5,11 @@
   "tasks": [
     {
       "type": "shell",
-      "command": "flutter",
+      "command": "dart",
       "group": "build",
       "label": "initializer_annotation | build_runner watch",
       "detail": "initializer_annotation",
       "args": [
-        "pub",
         "run",
         "build_runner",
         "watch",
@@ -41,12 +40,11 @@
     },
     {
       "type": "shell",
-      "command": "flutter",
+      "command": "dart",
       "group": "build",
       "label": "example | build_runner watch",
       "detail": "example",
       "args": [
-        "pub",
         "run",
         "build_runner",
         "watch",

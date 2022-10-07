@@ -39,6 +39,7 @@ void initializer({
     await testBuilder(
       AggregateBuilder(
         outputPath: 'lib/test.init.dart',
+        order: {},
         generators: [InitializerGenerator()],
       ),
       assets,

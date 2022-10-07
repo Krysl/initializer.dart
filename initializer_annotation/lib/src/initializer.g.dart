@@ -12,12 +12,14 @@ Initializer _$InitializerFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         $checkKeys(
           json,
-          allowedKeys: const ['debug', 'group', 'output_path'],
+          allowedKeys: const ['debug', 'group', 'output_path', 'order'],
         );
         final val = Initializer(
           debug: $checkedConvert('debug', (v) => v as bool? ?? false),
           group: $checkedConvert('group', (v) => v as String?),
           outputPath: $checkedConvert('output_path', (v) => v as String?),
+          order: $checkedConvert('order',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toSet()),
         );
         return val;
       },
@@ -29,4 +31,5 @@ Map<String, dynamic> _$InitializerToJson(Initializer instance) =>
       'debug': instance.debug,
       'group': instance.group,
       'output_path': instance.outputPath,
+      'order': instance.order?.toList(),
     };

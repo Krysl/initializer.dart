@@ -5,3 +5,7 @@ targets:
         enabled: true
         options:
           output_path: lib/init.init.dart
+          order:
+            - default
+            - group1
+            - group2
